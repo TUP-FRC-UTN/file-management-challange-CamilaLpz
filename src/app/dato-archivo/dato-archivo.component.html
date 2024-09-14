@@ -1,0 +1,13 @@
+<span data-bs-toggle="dropdown" title="{{obtenerTooltip(archivo.name)}}" [ngClass]="{'cursor-pointer': hijos.length != 0}">
+    <i class="{{obtenerTipoArchivo(archivo.type)}}"></i>
+    {{obtenerNombre(archivo.name)}}
+    @if (hijos.length != 0) {
+    <ul class="dropdown-menu p-2">
+
+        @for (hije of hijos; track $index) {
+        <li><app-dato-archivo [archivo]="hije.dato"></app-dato-archivo></li>
+        }
+    </ul>
+    }
+
+</span>

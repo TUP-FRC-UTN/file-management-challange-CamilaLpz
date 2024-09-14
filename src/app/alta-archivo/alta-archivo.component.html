@@ -1,0 +1,71 @@
+<form #alta="ngForm" (ngSubmit)="crear(alta)">
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="nombre" required #nombre="ngModel" id="nombre" [(ngModel)]="nombreNuevo">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="" class="form-label">Fecha</label>
+            <input type="date" class="form-control" name="fecha" required #fecha="ngModel" id="fecha" [(ngModel)]="fechaNueva">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="" class="form-label">Tipo Archivo</label>
+            <select class="form-select" aria-label="Default select example" name="selectTipo" required #tipo="ngModel" id="tipo" [(ngModel)]="tipoNuevo">
+                <option [ngValue]="tipoArchivo.FILE">Archivo</option>
+                <option [ngValue]="tipoArchivo.FOLDER">Carpeta</option>
+              </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="" class="form-label">Carpeta</label>
+            <select class="form-select" aria-label="Default select example" name="carpeta" #carpeta="ngModel" id="carpeta" [(ngModel)]="carpetaNueva">
+                @for (c of obtenerCarpetas(); track $index) {
+                    <option value="{{c.dato.id}}">{{c.dato.name}}</option>
+                }
+              </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col mb-3">
+            <label for="" class="form-label">Dueños</label>
+              <span class="d-flex">
+                <select class="form-select" aria-label="Default select example" name="dueno" #dueno="ngModel" id="dueno" [(ngModel)]="duenoNuevo">
+                    @for (o of duenos; track $index) {
+                        <option [ngValue]="o">{{o.name}}</option>
+                    }
+                  </select>
+                <button type="button" class="btn btn-secondary ms-2" (click)="agregarDueno()" [disabled]="selectDueno">+</button>
+            </span>
+              
+        </div>
+        <div class="col">
+            <label class="form-label">{{(lduenos.length != 0 ? "Dueños agregados:": "")}}</label>
+            <div>
+                @for (d of lduenos; track $index) {
+                    <img src="{{d.avatarUrl}}" alt=""
+                    style="height: 30px; width: 30px; border-radius: 100px; margin-inline: 3px;">
+                }
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-secondary" (click)="cambiarVentana(alta)">Volver</button>
+            
+        </div>
+        <div class="col text-end">
+            <button type="submit" class="btn btn-primary" [disabled]="!alta.valid" (click)="crear(alta)">Guardar</button>
+        </div>
+    </div>
+</form>

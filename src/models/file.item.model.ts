@@ -1,9 +1,9 @@
-export interface FileItem {
-  id: string;
-  name: string;
-  creation: Date;
-  owners: FileOwner[];
-  type: FileType;
+export class FileItem {
+  id: string = "";
+  name: string = "";
+  creation: Date = new Date();
+  owners: FileOwner[] = [];
+  type: FileType = FileType.FILE;
   parentId?: string;
 }
 
@@ -13,6 +13,6 @@ export interface FileOwner {
 }
 
 export enum FileType {
-  FOLDER,
-  FILE
+  FOLDER = 0,
+  FILE = 1
 }

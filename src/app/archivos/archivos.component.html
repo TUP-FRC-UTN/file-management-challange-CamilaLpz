@@ -1,0 +1,63 @@
+<div>
+    <div class="row">
+        <div class="col">
+            <h3>Archivos</h3>
+        </div>
+        <div class="col text-end">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Acciones
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" (click)="nuevoArchivo = true">Nuevo</button></li>
+                    <li><button class="dropdown-item" (click)="comprobarEliminar()">Borrar</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <table class="table table-striped" [hidden]="nuevoArchivo">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Dueños</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (archivo of listaMostrar; track $index; let indice = $index) {
+            <tr>
+                <td><input class="form-check-input" type="checkbox" [(ngModel)]="archivo.chequeado"></td>
+
+                <td>
+                    <app-dato-archivo [archivo]="archivo.dato" [hijos]="obtenerHijos(archivo.dato.id)"></app-dato-archivo>
+                </td>
+                <td>{{ archivo.dato.creation| date: "MMM dd, yyyy"}}</td>
+                <td>
+                    @if(archivo.dato.owners.length > 3){
+                        <span style="display: flex; align-items: center;">
+                        @for (o of obtenerDuenos(archivo.dato.owners); track $index) {
+                            <img src="{{o.avatarUrl}}" alt=""
+                                style="height: 30px; width: 30px; border-radius: 100px; margin-inline: 3px;">
+                        }
+                        <div style="border-radius: 500px; height: 30px; width: 30px; text-align: center; background-color: rgb(182, 187, 193); padding: 6px; text-align: center;">+{{archivo.dato.owners.length - 3}}</div>
+                        </span>
+                    }
+                    @else {
+                        @for (o of archivo.dato.owners; track $index) {
+                            <img src="{{o.avatarUrl}}" alt=""
+                                style="height: 30px; width: 30px; border-radius: 100px; margin-inline: 3px;">
+                        }
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <app-alta-archivo [archivos]="listaItems" [hidden]="!nuevoArchivo" (nuevo)="agregar($event)" (visible)="cambiarVentana($event)"></app-alta-archivo>
+    </div>
+</div>
